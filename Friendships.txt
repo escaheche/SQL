@@ -1,0 +1,58 @@
+1.-Devuelva a todos los usuarios que son amigos de Kermit, asegúrese de que sus nombres se muestren en los resultados.
+
+SELECT usr2.id, concat(usr2.first_name," ", usr2.last_name) as "Nombre" FROM friendships as fs
+LEFT JOIN users as usr 
+ON usr.id = fs.friend_id
+left join users as usr2
+on usr2.id=fs.user_id 
+where friend_id = 4 
+
+
+2.-Devuelve el recuento de todas las amistades.
+
+SELECT count( distinct (friend_id)) as "Total amistades" FROM friendships 
+
+3.-Descubre quién tiene más amigos y devuelve el recuento de sus amigos.
+
+SELECT  fs.user_id , concat(usr2.first_name," ",usr2.last_name) as nombre, count(fs.friend_id) as Total_amigos FROM friendships as fs
+LEFT JOIN users as usr 
+ON usr.id = fs.friend_id
+left join users as usr2
+on usr2.id=fs.user_id 
+group by fs.user_id, usr2.first_name
+
+4.-Crea un nuevo usuario y hazlos amigos de Eli Byers, Kermit The Frog y Marky Mark.
+
+insert into users (id,first_name, last_name, created_at, updated_at)
+values('6','Felipe','Martinez',sysdate(),sysdate());
+
+insert into friendships (id,user_id, friend_id, created_at, updated_at) --  2  comentario en sql
+values('7','6','2',sysdate(),sysdate());
+
+insert into friendships (id,user_id, friend_id, created_at, updated_at) --  4  comentario en sql
+values('8','6','4',sysdate(),sysdate());
+
+insert into friendships (id,user_id, friend_id, created_at, updated_at) --  5  comentario en sql
+values('9','6','5',sysdate(),sysdate())
+
+
+5.-Devuelve a los amigos de Eli en orden alfabético.
+
+SELECT usr2.id, concat(usr2.first_name," ", usr2.last_name) as "Nombre" FROM friendships as fs
+LEFT JOIN users as usr 
+ON usr.id = fs.friend_id
+left join users as usr2
+on usr2.id=fs.user_id 
+where friend_id= 4 order by usr2.first_name asc
+
+6.-Eliminar a Marky Mark de los amigos de Eli.
+
+delete from friendships where friend_id = 5
+
+7.-Devuelve todas las amistades, mostrando solo el nombre y apellido de ambos amigos
+
+SELECT concat(usr.first_name," ",usr.last_name) as "Nombre", concat(usr2.first_name," ", usr2.last_name) as "Nombre" FROM friendships as fs
+LEFT JOIN users as usr 
+ON usr.id = fs.friend_id
+left join users as usr2
+on usr2.id=fs.user_id 
